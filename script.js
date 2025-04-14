@@ -8,6 +8,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const csvFileInput = document.getElementById('csvFile');
     const statusDiv = document.getElementById('status');
     
+    // Add event listeners to check form completion
+    titleInput.addEventListener('input', checkFormCompletion);
+    contentInput.addEventListener('input', checkFormCompletion);
+    csvFileInput.addEventListener('change', checkFormCompletion);
+    
+    function checkFormCompletion() {
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+        const file = csvFileInput.files[0];
+        
+        // Enable button only if all fields are filled and file is selected
+        sendBtn.disabled = !(title && content && file);
+    }
+    
     sendBtn.addEventListener('click', async function() {
         const title = titleInput.value.trim();
         const content = contentInput.value.trim();
