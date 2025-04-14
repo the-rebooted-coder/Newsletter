@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Sender</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Newsletter Sender</h1>
+        
+        <div class="form-group">
+            <label for="title">Newsletter Title:</label>
+            <input type="text" id="title" placeholder="Enter newsletter title">
+        </div>
+        
+        <div class="form-group">
+            <label for="content">Newsletter Content:</label>
+            <textarea id="content" rows="10" placeholder="Enter your content here..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="csvFile">Upload CSV with Emails:</label>
+            <input type="file" id="csvFile" accept=".csv">
+            <small>CSV should have a column named "email"</small>
+        </div>
+        
+        <button id="sendBtn">Send Newsletter</button>
+        
+        <div id="status" class="status"></div>
+        
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ol>
+                <li>Create an account at <a href="https://www.emailjs.com/" target="_blank">EmailJS.com</a></li>
+                <li>Set up an email service (Gmail, Outlook, etc.)</li>
+                <li>Create an email template with variables {{title}}, {{content}}, and {{to_email}}</li>
+                <li>Update script.js with your EmailJS user ID, service ID, and template ID</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
