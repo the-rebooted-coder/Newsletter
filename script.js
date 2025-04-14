@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function sendEmail(toEmail, title, content) {
         // Replace with your EmailJS service ID and template ID
-        return emailjs.send('doomofcorona@gmail.com', 'template_ip0jok5', {
+        return emailjs.send('service_2o8e4y8', 'template_ip0jok5', {
             to_email: toEmail,
             title: title,
             content: content
