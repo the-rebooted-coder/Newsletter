@@ -111,7 +111,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update step 2 title with the user's input when moving from step 1
         if (currentStep === 1) {
-            contentStepTitle.textContent = titleInput.value.trim();
+            const titleElement = document.getElementById('content-step-title');
+    if (titleElement) {
+        titleElement.textContent = `${titleInput.value.trim()} ✏️`; // Added pencil emoji
+    }
         }
         
         if (currentStep === 2 && !contentInput.value.trim()) {
