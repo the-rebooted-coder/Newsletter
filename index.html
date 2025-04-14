@@ -10,62 +10,102 @@
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
-    <script src="script.js" defer></script>
 </head>
 <body class="mdc-typography">
-    <div class="mdc-layout-grid">
-        <div class="mdc-layout-grid__inner">
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
-                <div class="mdc-card container">
-                    <h1 class="mdc-typography--headline3">CCA Morning Neurons ✨🧠☕️</h1>
-                    
-                    <div class="mdc-text-field mdc-text-field--outlined title-field">
-                        <input type="text" id="title" class="mdc-text-field__input" required>
-                        <div class="mdc-notched-outline">
-                            <div class="mdc-notched-outline__leading"></div>
-                            <div class="mdc-notched-outline__notch">
-                                <label for="title" class="mdc-floating-label">Newsletter Title</label>
-                            </div>
-                            <div class="mdc-notched-outline__trailing"></div>
-                        </div>
+    <div class="form-container">
+        <div class="progress-bar">
+            <div class="progress-step active" data-step="1"></div>
+            <div class="progress-step" data-step="2"></div>
+            <div class="progress-step" data-step="3"></div>
+        </div>
+
+        <div class="form-step active" id="step-1">
+            <div class="step-header">
+                <h1>Let's Draft Morning Neurons ✨🧠☕️</h1>
+                <p>Start by giving it a compelling title</p>
+            </div>
+            <div class="mdc-text-field mdc-text-field--outlined title-field">
+                <input type="text" id="title" class="mdc-text-field__input" required>
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch">
+                        <label for="title" class="mdc-floating-label">Newsletter Title</label>
                     </div>
-                    
-                    <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea content-field">
-                        <textarea id="content" class="mdc-text-field__input" rows="8" required></textarea>
-                        <div class="mdc-notched-outline">
-                            <div class="mdc-notched-outline__leading"></div>
-                            <div class="mdc-notched-outline__notch">
-                                <label for="content" class="mdc-floating-label">Newsletter Content</label>
-                            </div>
-                            <div class="mdc-notched-outline__trailing"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="file-upload-container">
-                        <label class="mdc-button mdc-button--outlined" for="csvFile">
-                            <span class="mdc-button__ripple"></span>
-                            <i class="material-icons mdc-button__icon" aria-hidden="true">attach_file</i>
-                            <span class="mdc-button__label">Upload CSV File</span>
-                            <input type="file" id="csvFile" accept=".csv" style="display: none;">
-                        </label>
-                        <div class="mdc-text-field-helper-line">
-                            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent">
-                                CSV should have columns named "email" and "name"
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button id="sendBtn" class="mdc-button mdc-button--raised" disabled>
-                        <span class="mdc-button__label">Send Newsletter</span>
-                    </button>
-                    
-                    <div id="status" class="status"></div>
+                    <div class="mdc-notched-outline__trailing"></div>
                 </div>
             </div>
-        </div>
+            <button id="next-1" class="mdc-button mdc-button--raised next-btn">
+                <span class="mdc-button__label">Enter Content</span>
+                <i class="material-icons">arrow_forward</i>
+            </button>
+ <div class="attribution">
+        &lt;/&gt; with ❤️ by Spandan.
     </div>
-    
+        </div>
+
+        <div class="form-step" id="step-2">
+            <div class="step-header">
+                <h1>Now, the content</h1>
+                <p>What would you like to share today?</p>
+            </div>
+            <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea content-field">
+                <textarea id="content" class="mdc-text-field__input" rows="8" required></textarea>
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch">
+                        <label for="content" class="mdc-floating-label">Newsletter Content</label>
+                    </div>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </div>
+            <div class="step-actions">
+                <button id="back-2" class="mdc-button mdc-button--outlined back-btn">
+                    <i class="material-icons">arrow_back</i>
+                    <span class="mdc-button__label">Back</span>
+                </button>
+                <button id="next-2" class="mdc-button mdc-button--raised next-btn">
+                    <span class="mdc-button__label">Next: Recipients</span>
+                    <i class="material-icons">arrow_forward</i>
+                </button>
+            </div>
+        </div>
+
+        <div class="form-step" id="step-3">
+            <div class="step-header">
+                <h1>Almost there!</h1>
+                <p>Upload your recipient list</p>
+            </div>
+            <div class="file-upload-container">
+                <label class="mdc-button mdc-button--outlined file-upload-btn" for="csvFile">
+                    <span class="mdc-button__ripple"></span>
+                    <i class="material-icons mdc-button__icon" aria-hidden="true">upload</i>
+                    <span class="mdc-button__label">Choose CSV File</span>
+                    <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                </label>
+                <div class="file-info" id="fileInfo">No file selected</div>
+                <div class="mdc-text-field-helper-line">
+                    <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent">
+                        CSV should have columns named "email" and "name"
+                    </div>
+                </div>
+            </div>
+            <div class="step-actions">
+                <button id="back-3" class="mdc-button mdc-button--outlined back-btn">
+                    <i class="material-icons">arrow_back</i>
+                    <span class="mdc-button__label">Back</span>
+                </button>
+                <button id="sendBtn" class="mdc-button mdc-button--raised send-btn" disabled>
+                    <span class="mdc-button__label">Send Newsletter</span>
+                    <i class="material-icons">send</i>
+                </button>
+            </div>
+        </div>
+
+        <div id="status" class="status"></div>
+    </div>
+
     <!-- Material Components Web JavaScript -->
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

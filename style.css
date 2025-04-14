@@ -8,68 +8,147 @@
     --mdc-theme-on-secondary: #FFFFFF;
     --mdc-theme-on-surface: #1C1B1F;
     --mdc-theme-on-error: #FFFFFF;
-    --cursor-default: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='%236750A4' opacity='0.6'/></svg>") 12 12, default;
-    --cursor-pointer: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='%236750A4'/></svg>") 12 12, pointer;
 }
 
 body {
     background-color: #F3EDF7;
     margin: 0;
-    padding: 16px;
+    padding: 0;
     min-height: 100vh;
-    cursor: var(--cursor-default);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
 }
 
-.container {
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 
-                0px 6px 10px 0px rgba(0, 0, 0, 0.14), 
-                0px 1px 18px 0px rgba(0, 0, 0, 0.12);
-    transition: box-shadow 0.3s ease;
-}
-
-.container:hover {
-    box-shadow: 0px 5px 8px -3px rgba(0, 0, 0, 0.2), 
-                0px 8px 14px 1px rgba(0, 0, 0, 0.14), 
-                0px 3px 20px 2px rgba(0, 0, 0, 0.12);
-}
-
-h1 {
-    margin: 0 0 20px 0;
-    color: var(--mdc-theme-on-surface);
-}
-
-.title-field, .content-field {
+.form-container {
     width: 100%;
-    margin-bottom: 12px;
+    max-width: 600px;
+    background-color: var(--mdc-theme-surface);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin: 20px;
+    position: relative;
+    overflow: hidden;
 }
 
-.content-field {
-    min-height: 180px;
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    position: relative;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #EADDFF;
+    z-index: 0;
+    transform: translateY(-50%);
+}
+
+.progress-step {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #EADDFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #49454F;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.progress-step.active {
+    background-color: var(--mdc-theme-primary);
+    color: white;
+}
+
+.form-step {
+    display: none;
+    flex-direction: column;
+    animation: fadeIn 0.5s ease;
+}
+
+.form-step.active {
+    display: flex;
+}
+
+.step-header {
+    margin-bottom: 32px;
+}
+
+.step-header h1 {
+    margin: 0 0 8px 0;
+    color: var(--mdc-theme-on-surface);
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.step-header p {
+    margin: 0;
+    color: #49454F;
+    font-size: 16px;
+}
+
+.mdc-text-field {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.mdc-text-field--textarea {
+    min-height: 200px;
+}
+
+.step-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+.next-btn, .send-btn {
+    align-self: flex-end;
+}
+
+.back-btn {
+    align-self: flex-start;
 }
 
 .file-upload-container {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
-#sendBtn {
+.file-upload-btn {
     width: 100%;
-    height: 48px;
-    margin-top: 12px;
-    cursor: var(--cursor-pointer);
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.file-info {
+    font-size: 14px;
+    color: #49454F;
+    text-align: center;
+    margin-bottom: 8px;
 }
 
 .status {
-    margin-top: 12px;
-    padding: 12px;
+    margin-top: 24px;
+    padding: 16px;
     border-radius: 4px;
     text-align: center;
+    display: none;
 }
 
-/* Add custom cursor for interactive elements */
-button, input, textarea, label[for="csvFile"], .mdc-text-field {
-    cursor: var(--cursor-pointer);
+.status.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
 }
 
 .status.success {
@@ -87,6 +166,11 @@ button, input, textarea, label[for="csvFile"], .mdc-text-field {
     color: #0D47A1;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Material Overrides */
 .mdc-text-field--outlined .mdc-notched-outline__notch {
     border-left: none;
@@ -95,4 +179,35 @@ button, input, textarea, label[for="csvFile"], .mdc-text-field {
 
 .mdc-button {
     --mdc-typography-button-letter-spacing: 0;
+    height: 48px;
+    padding: 0 24px;
+}
+
+.mdc-button--raised {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 
+                0 4px 5px 0 rgba(0, 0, 0, 0.14), 
+                0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.3s ease;
+}
+
+.mdc-button--raised:hover {
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 
+                0 6px 10px 0 rgba(0, 0, 0, 0.14), 
+                0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+.mdc-button__icon {
+    margin-left: 8px;
+}
+.attribution {
+    text-align: center;
+    margin-top: 32px;
+    color: #958DA5;
+    font-size: 14px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.form-step:not(#step-1) .attribution {
+    display: none;
 }

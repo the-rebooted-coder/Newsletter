@@ -11,25 +11,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize EmailJS with your user ID
     emailjs.init('moQLyVzFTD1ooZRvr');
     
+    // DOM Elements
+    const steps = document.querySelectorAll('.form-step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    const nextBtn1 = document.getElementById('next-1');
+    const nextBtn2 = document.getElementById('next-2');
+    const backBtn2 = document.getElementById('back-2');
+    const backBtn3 = document.getElementById('back-3');
     const sendBtn = document.getElementById('sendBtn');
     const titleInput = document.getElementById('title');
     const contentInput = document.getElementById('content');
     const csvFileInput = document.getElementById('csvFile');
+    const fileInfo = document.getElementById('fileInfo');
     const statusDiv = document.getElementById('status');
     
-    // Add event listeners to check form completion
-    titleInput.addEventListener('input', checkFormCompletion);
-    contentInput.addEventListener('input', checkFormCompletion);
-    csvFileInput.addEventListener('change', checkFormCompletion);
+    let currentStep = 1;
     
-    function checkFormCompletion() {
-        const title = titleInput.value.trim();
-        const content = contentInput.value.trim();
-        const file = csvFileInput.files[0];
-        
-        // Enable button only if all fields are filled and file is selected
-        sendBtn.disabled = !(title && content && file);
-    }
+    // Event Listeners
+    nextBtn1.addEventListener('click', nextStep);
+    nextBtn2.addEventListener('click', nextStep);
+    backBtn2.addEventListener('click', prevStep);
+    backBtn3.addEventListener('click', prevStep);
+    
+    csvFileInput.addEventListener('change', function() {
+        if (this.files.length > 0) {
+            fileInfo.textContent = this.files[0].name;
+            sendBtn.disabled = false;
+        } else {
+            fileInfo.textContent = 'No file selected';
+            sendBtn.disabled = true;
+        }
+    });
     
     sendBtn.addEventListener('click', async function() {
         const title = titleInput.value.trim();
@@ -41,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Show Material-style dialog for secret code
         const secretCode = prompt(`Please enter the secret code to send newsletters.\n\nThis verification helps ensure fair usage and prevent abuse.`, '');
         
         if (secretCode !== '123456') {
@@ -87,7 +98,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // ... rest of your existing functions (parseCSV, validateEmail, sendEmail, showStatus) ...
+    // Functions
+    function nextStep() {
+        if (currentStep >= 3) return;
+        
+        // Validate current step before proceeding
+        if (currentStep === 1 && !titleInput.value.trim()) {
+            showStatus('Please enter a title for your newsletter', 'error');
+            return;
+        }
+        
+        if (currentStep === 2 && !contentInput.value.trim()) {
+            showStatus('Please enter content for your newsletter', 'error');
+            return;
+        }
+        
+        steps[currentStep - 1].classList.remove('active');
+        progressSteps[currentStep - 1].classList.remove('active');
+        
+        currentStep++;
+        
+        steps[currentStep - 1].classList.add('active');
+        progressSteps[currentStep - 1].classList.add('active');
+        
+        window.scrollTo(0, 0);
+    }
+    
+    function prevStep() {
+        if (currentStep <= 1) return;
+        
+        steps[currentStep - 1].classList.remove('active');
+        progressSteps[currentStep - 1].classList.remove('active');
+        
+        currentStep--;
+        
+        steps[currentStep - 1].classList.add('active');
+        progressSteps[currentStep - 1].classList.add('active');
+        
+        window.scrollTo(0, 0);
+    }
+    
+    function showStatus(message, type) {
+        statusDiv.textContent = message;
+        statusDiv.className = 'status show ' + type;
+        
+        if (type !== 'progress') {
+            setTimeout(() => {
+                statusDiv.classList.remove('show');
+            }, 5000);
+        }
+    }
+    
     function parseCSV(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -108,11 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     if (emailIndex === -1) {
-                        // If no email column found, try to use first column
                         emailIndex = 0;
                     }
                     
-                    // Process each line
                     const startRow = lines.length > 1 && lines[0].includes('@') ? 0 : 1;
                     
                     for (let i = startRow; i < lines.length; i++) {
@@ -157,10 +216,5 @@ document.addEventListener('DOMContentLoaded', function() {
             title: title,
             content: content
         });
-    }
-    
-    function showStatus(message, type) {
-        statusDiv.textContent = message;
-        statusDiv.className = 'status ' + type;
     }
 });
