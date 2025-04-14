@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize EmailJS with your user ID
-    // Replace with your actual EmailJS user ID
     emailjs.init('moQLyVzFTD1ooZRvr');
     
     const sendBtn = document.getElementById('sendBtn');
@@ -21,35 +20,32 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             showStatus('Processing CSV file...', 'progress');
-            const emails = await parseCSV(file);
+            const recipients = await parseCSV(file); // Now returns array of objects
             
-            if (emails.length === 0) {
-                showStatus('No valid emails found in CSV', 'error');
+            if (recipients.length === 0) {
+                showStatus('No valid recipients found in CSV', 'error');
                 return;
             }
             
-            showStatus(`Sending newsletters to ${emails.length} recipients...`, 'progress');
+            showStatus(`Sending newsletters to ${recipients.length} recipients...`, 'progress');
             
             let successCount = 0;
             let errorCount = 0;
             
-            // Send emails one by one with a small delay to avoid rate limiting
-            for (let i = 0; i < emails.length; i++) {
-                const email = emails[i];
+            for (let i = 0; i < recipients.length; i++) {
+                const recipient = recipients[i];
                 try {
-                    await sendEmail(email, title, content);
+                    await sendEmail(recipient.email, recipient.name, title, content);
                     successCount++;
                     
-                    // Update status periodically
-                    if (i % 5 === 0 || i === emails.length - 1) {
-                        showStatus(`Sending... (${successCount + errorCount}/${emails.length})`, 'progress');
+                    if (i % 5 === 0 || i === recipients.length - 1) {
+                        showStatus(`Sending... (${successCount + errorCount}/${recipients.length})`, 'progress');
                     }
                     
-                    // Small delay between emails (500ms)
                     await new Promise(resolve => setTimeout(resolve, 500));
                 } catch (error) {
                     errorCount++;
-                    console.error(`Failed to send to ${email}:`, error);
+                    console.error(`Failed to send to ${recipient.email}:`, error);
                 }
             }
             
@@ -68,13 +64,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 try {
                     const content = e.target.result;
                     const lines = content.split('\n');
-                    const emails = [];
+                    const recipients = [];
                     let emailIndex = -1;
+                    let nameIndex = -1;
                     
-                    // Parse header row to find email column
+                    // Parse header row
                     if (lines.length > 0) {
                         const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
                         emailIndex = headers.indexOf('email');
+                        nameIndex = headers.indexOf('name');
                     }
                     
                     if (emailIndex === -1) {
@@ -82,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         emailIndex = 0;
                     }
                     
-                    // Process each line (skip header if exists)
+                    // Process each line
                     const startRow = lines.length > 1 && lines[0].includes('@') ? 0 : 1;
                     
                     for (let i = startRow; i < lines.length; i++) {
@@ -92,12 +90,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (columns.length > emailIndex) {
                             const email = columns[emailIndex].trim();
                             if (validateEmail(email)) {
-                                emails.push(email);
+                                const name = nameIndex >= 0 && columns[nameIndex] ? columns[nameIndex].trim() : '';
+                                recipients.push({
+                                    email: email,
+                                    name: name
+                                });
                             }
                         }
                     }
                     
-                    resolve(emails);
+                    resolve(recipients);
                 } catch (error) {
                     reject(new Error('Error parsing CSV file'));
                 }
@@ -116,10 +118,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return re.test(email);
     }
     
-    function sendEmail(toEmail, title, content) {
-        // Replace with your EmailJS service ID and template ID
+    function sendEmail(toEmail, name, title, content) {
+        // Update your template to use {{name}} if needed
         return emailjs.send('service_2o8e4y8', 'template_ip0jok5', {
             to_email: toEmail,
+            name: name,  // Added name parameter
             title: title,
             content: content
         });
