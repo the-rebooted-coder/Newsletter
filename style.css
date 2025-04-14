@@ -8,6 +8,8 @@
     --mdc-theme-on-secondary: #FFFFFF;
     --mdc-theme-on-surface: #1C1B1F;
     --mdc-theme-on-error: #FFFFFF;
+    --cursor-default: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='%236750A4' opacity='0.6'/></svg>") 12 12, default;
+    --cursor-pointer: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='10' fill='%236750A4'/></svg>") 12 12, pointer;
 }
 
 body {
@@ -15,42 +17,59 @@ body {
     margin: 0;
     padding: 16px;
     min-height: 100vh;
+    cursor: var(--cursor-default);
 }
 
 .container {
-    padding: 24px;
+    padding: 20px;
     border-radius: 12px;
+    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 
+                0px 6px 10px 0px rgba(0, 0, 0, 0.14), 
+                0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0px 5px 8px -3px rgba(0, 0, 0, 0.2), 
+                0px 8px 14px 1px rgba(0, 0, 0, 0.14), 
+                0px 3px 20px 2px rgba(0, 0, 0, 0.12);
 }
 
 h1 {
-    margin: 0 0 24px 0;
+    margin: 0 0 20px 0;
     color: var(--mdc-theme-on-surface);
 }
 
 .title-field, .content-field {
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
 .content-field {
-    min-height: 200px;
+    min-height: 180px;
 }
 
 .file-upload-container {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 #sendBtn {
     width: 100%;
-    height: 56px;
-    margin-top: 8px;
+    height: 48px;
+    margin-top: 12px;
+    cursor: var(--cursor-pointer);
 }
 
 .status {
-    margin-top: 16px;
-    padding: 16px;
+    margin-top: 12px;
+    padding: 12px;
     border-radius: 4px;
     text-align: center;
+}
+
+/* Add custom cursor for interactive elements */
+button, input, textarea, label[for="csvFile"], .mdc-text-field {
+    cursor: var(--cursor-pointer);
 }
 
 .status.success {
