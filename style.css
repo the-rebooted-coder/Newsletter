@@ -105,12 +105,3 @@ small {
     color: #6c757d;
     font-size: 0.9em;
 }
-
-a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
