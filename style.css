@@ -10,6 +10,9 @@
     --mdc-theme-on-error: #FFFFFF;
     --mdc-typography-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --mdc-typography-headline1-font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --mdc-shape-small: 20px;
+    --mdc-shape-medium: 28px;
+    --mdc-shape-large: 36px;
 }
 
 body {
@@ -131,6 +134,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 24px;
+    gap: 16px;
 }
 
 .next-btn, .send-btn {
@@ -148,19 +152,27 @@ body {
     --mdc-typography-button-letter-spacing: 0;
     height: 48px;
     padding: 0 24px;
+    border-radius: var(--mdc-shape-medium);
+    overflow: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mdc-button--raised {
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 
-                0 4px 5px 0 rgba(0, 0, 0, 0.14), 
-                0 1px 10px 0 rgba(0, 0, 0, 0.12);
-    transition: box-shadow 0.3s ease;
+    border-radius: var(--mdc-shape-medium);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 
+                0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mdc-button--raised:hover {
-    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 
-                0 6px 10px 0 rgba(0, 0, 0, 0.14), 
-                0 1px 18px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+.mdc-button--outlined {
+    border-radius: var(--mdc-shape-medium);
+    border-width: 1px;
 }
 
 .mdc-button__icon {
@@ -176,6 +188,7 @@ body {
     width: 100%;
     justify-content: center;
     margin-bottom: 8px;
+    border-radius: var(--mdc-shape-medium);
 }
 
 .file-info {
@@ -200,10 +213,13 @@ body {
     vertical-align: middle;
     opacity: 0.7;
     transition: opacity 0.2s ease;
+    border-radius: 50%;
+    padding: 4px;
 }
 
 .info-icon:hover {
     opacity: 1;
+    background-color: rgba(0, 0, 0, 0.04);
 }
 
 .tooltip-text {
@@ -212,8 +228,8 @@ body {
     background-color: var(--mdc-theme-on-surface);
     color: var(--mdc-theme-surface);
     text-align: center;
-    border-radius: 4px;
-    padding: 8px;
+    border-radius: var(--mdc-shape-small);
+    padding: 12px;
     position: absolute;
     z-index: 1;
     bottom: 125%;
@@ -224,6 +240,8 @@ body {
     font-size: 13px;
     font-weight: 400;
     line-height: 1.4;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .tooltip-text::after {
@@ -245,7 +263,7 @@ body {
 .status {
     margin-top: 24px;
     padding: 16px;
-    border-radius: 4px;
+    border-radius: var(--mdc-shape-small);
     text-align: center;
     display: none;
     font-size: 15px;
@@ -302,6 +320,8 @@ body {
     margin-top: 24px;
     background-color: var(--mdc-theme-primary);
     color: var(--mdc-theme-on-primary);
+    border-radius: var(--mdc-shape-medium);
+    padding: 0 32px;
 }
 
 @keyframes fadeIn {
