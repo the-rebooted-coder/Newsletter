@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newsletter Sender</title>
+    <title>CCA Morning Neurons</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <h1>Newsletter Sender</h1>
+        <h1>CCA Morning Neurons</h1>
         
         <div class="form-group">
             <label for="title">Newsletter Title:</label>
@@ -25,23 +25,12 @@
         <div class="form-group">
             <label for="csvFile">Upload CSV with Emails:</label>
             <input type="file" id="csvFile" accept=".csv">
-         <!-- Change the small text under CSV upload -->
-	<small>CSV should have columns named "email" and "name"</small>
+            <small>CSV should have columns named "email" and "name"</small>
         </div>
         
-        <button id="sendBtn">Send Newsletter</button>
+        <button id="sendBtn" disabled>Send Newsletter</button>
         
         <div id="status" class="status"></div>
-        
-        <div class="instructions">
-            <h3>How to use:</h3>
-            <ol>
-                <li>Create an account at <a href="https://www.emailjs.com/" target="_blank">EmailJS.com</a></li>
-                <li>Set up an email service (Gmail, Outlook, etc.)</li>
-                <li>Create an email template with variables {{title}}, {{content}}, and {{to_email}}</li>
-                <li>Update script.js with your EmailJS user ID, service ID, and template ID</li>
-            </ol>
-        </div>
     </div>
 </body>
 </html>
