@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileInfo = document.getElementById('fileInfo');
     const statusDiv = document.getElementById('status');
     const contentStepTitle = document.getElementById('content-step-title');
+    const startOverBtn = document.getElementById('startOver');
+    const successState = document.getElementById('success-state');
     
     let currentStep = 1;
     
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     nextBtn2.addEventListener('click', nextStep);
     backBtn2.addEventListener('click', prevStep);
     backBtn3.addEventListener('click', prevStep);
+    startOverBtn.addEventListener('click', () => location.reload());
     
     csvFileInput.addEventListener('change', function() {
         if (this.files.length > 0) {
@@ -54,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        const secretCode = prompt(`Please enter the secret code to send newsletters.\nThis verification helps ensure fair usage and prevent abuse.`, '');
+        const secretCode = prompt(`Please enter the secret code to send newsletters.\n\nThis verification helps ensure fair usage and prevent abuse.`, '');
         
         if (secretCode !== '123456') {
             showStatus('Error: Incorrect secret code. Newsletters not sent.', 'error');
@@ -92,6 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
+            // Show success state
+            document.querySelector('.progress-bar').style.display = 'none';
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+            successState.classList.add('show');
             showStatus(`Newsletters sent successfully to ${successCount} recipients. ${errorCount} failed.`, 'success');
         } catch (error) {
             console.error('Error:', error);
@@ -112,9 +119,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update step 2 title with the user's input when moving from step 1
         if (currentStep === 1) {
             const titleElement = document.getElementById('content-step-title');
-    if (titleElement) {
-        titleElement.textContent = `${titleInput.value.trim()} ✏️`; // Added pencil emoji
-    }
+            if (titleElement) {
+                titleElement.textContent = `${titleInput.value.trim()} ✏️`;
+            }
         }
         
         if (currentStep === 2 && !contentInput.value.trim()) {

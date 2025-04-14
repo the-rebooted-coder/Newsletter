@@ -273,6 +273,37 @@ body {
     color: #0D47A1;
 }
 
+.success-state {
+    display: none;
+    text-align: center;
+    padding: 40px 0;
+    animation: fadeIn 0.5s ease;
+}
+
+.success-state.show {
+    display: block;
+}
+
+.success-content h1 {
+    font-size: 32px;
+    margin-bottom: 16px;
+    color: var(--mdc-theme-primary);
+    line-height: 1.3;
+}
+
+.success-content p {
+    font-size: 18px;
+    color: var(--mdc-theme-on-surface);
+    opacity: 0.9;
+    margin-bottom: 32px;
+}
+
+#startOver {
+    margin-top: 24px;
+    background-color: var(--mdc-theme-primary);
+    color: var(--mdc-theme-on-primary);
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
