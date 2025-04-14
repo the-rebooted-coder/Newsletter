@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const csvFileInput = document.getElementById('csvFile');
     const fileInfo = document.getElementById('fileInfo');
     const statusDiv = document.getElementById('status');
+    const contentStepTitle = document.getElementById('content-step-title');
     
     let currentStep = 1;
     
@@ -106,6 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentStep === 1 && !titleInput.value.trim()) {
             showStatus('Please enter a title for your newsletter', 'error');
             return;
+        }
+        
+        // Update step 2 title with the user's input when moving from step 1
+        if (currentStep === 1) {
+            contentStepTitle.textContent = titleInput.value.trim();
         }
         
         if (currentStep === 2 && !contentInput.value.trim()) {
