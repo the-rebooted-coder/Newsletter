@@ -32,6 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Show secret code popup
+        const secretCode = prompt(`Please enter the secret code to send newsletters.\n\nThis verification helps ensure fair usage and prevent abuse.`, '');
+        
+        if (secretCode !== '123456') {
+            showStatus('Error: Incorrect secret code. Newsletters not sent.', 'error');
+            return;
+        }
+        
         try {
             showStatus('Processing CSV file...', 'progress');
             const recipients = await parseCSV(file); // Now returns array of objects
