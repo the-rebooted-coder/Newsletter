@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize EmailJS with your user ID
     // Replace with your actual EmailJS user ID
-    emailjs.init('doomofcorona@gmail.com');
+    emailjs.init('service_2o8e4y8');
     
     const sendBtn = document.getElementById('sendBtn');
     const titleInput = document.getElementById('title');
