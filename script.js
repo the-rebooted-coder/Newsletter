@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Material components
+    const textFields = [].map.call(document.querySelectorAll('.mdc-text-field'), function(el) {
+        return new mdc.textField.MDCTextField(el);
+    });
+    
+    const buttons = [].map.call(document.querySelectorAll('.mdc-button'), function(el) {
+        return new mdc.ripple.MDCRipple(el);
+    });
+    
     // Initialize EmailJS with your user ID
     emailjs.init('moQLyVzFTD1ooZRvr');
     
@@ -32,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Show secret code popup
+        // Show Material-style dialog for secret code
         const secretCode = prompt(`Please enter the secret code to send newsletters.\n\nThis verification helps ensure fair usage and prevent abuse.`, '');
         
         if (secretCode !== '123456') {
@@ -42,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             showStatus('Processing CSV file...', 'progress');
-            const recipients = await parseCSV(file); // Now returns array of objects
+            const recipients = await parseCSV(file);
             
             if (recipients.length === 0) {
                 showStatus('No valid recipients found in CSV', 'error');
@@ -78,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // ... rest of your existing functions (parseCSV, validateEmail, sendEmail, showStatus) ...
     function parseCSV(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -141,10 +151,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function sendEmail(toEmail, name, title, content) {
-        // Update your template to use {{name}} if needed
         return emailjs.send('service_2o8e4y8', 'template_ip0jok5', {
             to_email: toEmail,
-            name: name,  // Added name parameter
+            name: name,
             title: title,
             content: content
         });

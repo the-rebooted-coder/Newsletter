@@ -4,33 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCA Morning Neurons</title>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Material You (Material Design 3) -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3.2.0/dist/email.min.js"></script>
     <script src="script.js" defer></script>
 </head>
-<body>
-    <div class="container">
-        <h1>CCA Morning Neurons ✨🧠☕️</h1>
-        
-        <div class="form-group">
-            <label for="title">Newsletter Title:</label>
-            <input type="text" id="title" placeholder="Enter newsletter title">
+<body class="mdc-typography">
+    <div class="mdc-layout-grid">
+        <div class="mdc-layout-grid__inner">
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12">
+                <div class="mdc-card container">
+                    <h1 class="mdc-typography--headline3">CCA Morning Neurons ✨🧠☕️</h1>
+                    
+                    <div class="mdc-text-field mdc-text-field--outlined title-field">
+                        <input type="text" id="title" class="mdc-text-field__input" required>
+                        <div class="mdc-notched-outline">
+                            <div class="mdc-notched-outline__leading"></div>
+                            <div class="mdc-notched-outline__notch">
+                                <label for="title" class="mdc-floating-label">Newsletter Title</label>
+                            </div>
+                            <div class="mdc-notched-outline__trailing"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea content-field">
+                        <textarea id="content" class="mdc-text-field__input" rows="8" required></textarea>
+                        <div class="mdc-notched-outline">
+                            <div class="mdc-notched-outline__leading"></div>
+                            <div class="mdc-notched-outline__notch">
+                                <label for="content" class="mdc-floating-label">Newsletter Content</label>
+                            </div>
+                            <div class="mdc-notched-outline__trailing"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="file-upload-container">
+                        <label class="mdc-button mdc-button--outlined" for="csvFile">
+                            <span class="mdc-button__ripple"></span>
+                            <i class="material-icons mdc-button__icon" aria-hidden="true">attach_file</i>
+                            <span class="mdc-button__label">Upload CSV File</span>
+                            <input type="file" id="csvFile" accept=".csv" style="display: none;">
+                        </label>
+                        <div class="mdc-text-field-helper-line">
+                            <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent">
+                                CSV should have columns named "email" and "name"
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="sendBtn" class="mdc-button mdc-button--raised" disabled>
+                        <span class="mdc-button__label">Send Newsletter</span>
+                    </button>
+                    
+                    <div id="status" class="status"></div>
+                </div>
+            </div>
         </div>
-        
-        <div class="form-group">
-            <label for="content">Newsletter Content:</label>
-            <textarea id="content" rows="10" placeholder="Enter your content here..."></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label for="csvFile">Upload CSV with Emails:</label>
-            <input type="file" id="csvFile" accept=".csv">
-            <small>CSV should have columns named "email" and "name"</small>
-        </div>
-        
-        <button id="sendBtn" disabled>Send Newsletter</button>
-        
-        <div id="status" class="status"></div>
     </div>
+    
+    <!-- Material Components Web JavaScript -->
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 </body>
 </html>
