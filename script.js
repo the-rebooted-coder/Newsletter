@@ -107,8 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Functions
-    function nextStep() {
+    async function nextStep() {
         if (currentStep >= 3) return;
+        
+        // Get current active button
+        const activeButton = currentStep === 1 ? nextBtn1 : nextBtn2;
         
         // Validate current step before proceeding
         if (currentStep === 1 && !titleInput.value.trim()) {
@@ -116,7 +119,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Update step 2 title with the user's input when moving from step 1
+        if (currentStep === 2 && !contentInput.value.trim()) {
+            showStatus('Please enter content for your newsletter', 'error');
+            return;
+        }
+        
+        // Add loading state to button
+        activeButton.classList.add('mdc-button--loading');
+        activeButton.disabled = true;
+        
+        // Update step 2 title if moving from step 1
         if (currentStep === 1) {
             const titleElement = document.getElementById('content-step-title');
             if (titleElement) {
@@ -124,18 +136,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        if (currentStep === 2 && !contentInput.value.trim()) {
-            showStatus('Please enter content for your newsletter', 'error');
-            return;
-        }
+        // Add slight delay for animation to be visible
+        await new Promise(resolve => setTimeout(resolve, 500));
         
+        // Hide current step
         steps[currentStep - 1].classList.remove('active');
         progressSteps[currentStep - 1].classList.remove('active');
         
         currentStep++;
         
+        // Show next step
         steps[currentStep - 1].classList.add('active');
         progressSteps[currentStep - 1].classList.add('active');
+        
+        // Remove loading state
+        activeButton.classList.remove('mdc-button--loading');
+        activeButton.disabled = false;
         
         window.scrollTo(0, 0);
     }

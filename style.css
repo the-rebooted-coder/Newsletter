@@ -83,11 +83,20 @@ body {
 .form-step {
     display: none;
     flex-direction: column;
-    animation: fadeIn 0.5s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .form-step.active {
     display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.form-step:not(.active) {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    position: absolute;
 }
 
 .step-header {
@@ -155,6 +164,7 @@ body {
     border-radius: var(--mdc-shape-medium);
     overflow: hidden;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 .mdc-button--raised {
@@ -173,6 +183,33 @@ body {
 .mdc-button--outlined {
     border-radius: var(--mdc-shape-medium);
     border-width: 1px;
+}
+
+/* Button loading animation */
+.mdc-button--loading .mdc-button__label,
+.mdc-button--loading .material-icons {
+    visibility: hidden;
+}
+
+.mdc-button--loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 3px solid transparent;
+    border-top-color: var(--mdc-theme-on-primary);
+    border-radius: 50%;
+    animation: button-loading-spinner 1s linear infinite;
+}
+
+@keyframes button-loading-spinner {
+    from { transform: rotate(0turn); }
+    to { transform: rotate(1turn); }
 }
 
 .mdc-button__icon {
