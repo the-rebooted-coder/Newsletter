@@ -8,6 +8,8 @@
     --mdc-theme-on-secondary: #FFFFFF;
     --mdc-theme-on-surface: #1C1B1F;
     --mdc-theme-on-error: #FFFFFF;
+    --mdc-typography-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --mdc-typography-headline1-font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 body {
@@ -18,7 +20,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--mdc-typography-font-family);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 .form-container {
@@ -64,6 +69,7 @@ body {
     font-weight: 500;
     position: relative;
     z-index: 1;
+    font-family: var(--mdc-typography-font-family);
 }
 
 .progress-step.active {
@@ -89,22 +95,36 @@ body {
     margin: 0 0 8px 0;
     color: var(--mdc-theme-on-surface);
     font-size: 32px;
-    font-weight: 400;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    font-family: var(--mdc-typography-headline1-font-family);
 }
 
 .step-header p {
     margin: 0;
     color: #49454F;
     font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+    opacity: 0.9;
 }
 
 .mdc-text-field {
     width: 100%;
     margin-bottom: 24px;
+    font-family: var(--mdc-typography-font-family);
 }
 
 .mdc-text-field--textarea {
     min-height: 200px;
+}
+
+.mdc-text-field__input,
+.mdc-floating-label {
+    font-family: var(--mdc-typography-font-family);
+    font-weight: 400;
+    letter-spacing: 0.15px;
 }
 
 .step-actions {
@@ -121,8 +141,35 @@ body {
     align-self: flex-start;
 }
 
+.mdc-button {
+    font-family: var(--mdc-typography-font-family);
+    font-weight: 500;
+    letter-spacing: 0.25px;
+    --mdc-typography-button-letter-spacing: 0;
+    height: 48px;
+    padding: 0 24px;
+}
+
+.mdc-button--raised {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 
+                0 4px 5px 0 rgba(0, 0, 0, 0.14), 
+                0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.3s ease;
+}
+
+.mdc-button--raised:hover {
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 
+                0 6px 10px 0 rgba(0, 0, 0, 0.14), 
+                0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+.mdc-button__icon {
+    margin-left: 8px;
+}
+
 .file-upload-container {
     margin-bottom: 24px;
+    text-align: center;
 }
 
 .file-upload-btn {
@@ -136,6 +183,63 @@ body {
     color: #49454F;
     text-align: center;
     margin-bottom: 8px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.csv-info-tooltip {
+    position: relative;
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--mdc-theme-secondary);
+}
+
+.info-icon {
+    font-size: 18px;
+    cursor: help;
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.info-icon:hover {
+    opacity: 1;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: var(--mdc-theme-on-surface);
+    color: var(--mdc-theme-surface);
+    text-align: center;
+    border-radius: 4px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--mdc-theme-on-surface) transparent transparent transparent;
+}
+
+.csv-info-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
 }
 
 .status {
@@ -144,6 +248,9 @@ body {
     border-radius: 4px;
     text-align: center;
     display: none;
+    font-size: 15px;
+    line-height: 1.5;
+    font-weight: 500;
 }
 
 .status.show {
@@ -177,28 +284,6 @@ body {
     border-right: none;
 }
 
-.mdc-button {
-    --mdc-typography-button-letter-spacing: 0;
-    height: 48px;
-    padding: 0 24px;
-}
-
-.mdc-button--raised {
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 
-                0 4px 5px 0 rgba(0, 0, 0, 0.14), 
-                0 1px 10px 0 rgba(0, 0, 0, 0.12);
-    transition: box-shadow 0.3s ease;
-}
-
-.mdc-button--raised:hover {
-    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 
-                0 6px 10px 0 rgba(0, 0, 0, 0.14), 
-                0 1px 18px 0 rgba(0, 0, 0, 0.12);
-}
-
-.mdc-button__icon {
-    margin-left: 8px;
-}
 .attribution {
     text-align: center;
     margin-top: 32px;
@@ -206,6 +291,9 @@ body {
     font-size: 14px;
     opacity: 1;
     transition: opacity 0.3s ease;
+    font-family: var(--mdc-typography-font-family);
+    font-weight: 400;
+    letter-spacing: 0.15px;
 }
 
 .form-step:not(#step-1) .attribution {

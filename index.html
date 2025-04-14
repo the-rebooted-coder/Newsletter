@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCA Morning Neurons</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Material You (Material Design 3) -->
@@ -38,9 +42,9 @@
                 <span class="mdc-button__label">Enter Content</span>
                 <i class="material-icons">arrow_forward</i>
             </button>
- <div class="attribution">
-        &lt;/&gt; with ❤️ by Spandan.
-    </div>
+            <div class="attribution">
+                &lt;/&gt; with ❤️ by Spandan.
+            </div>
         </div>
 
         <div class="form-step" id="step-2">
@@ -83,10 +87,9 @@
                     <input type="file" id="csvFile" accept=".csv" style="display: none;">
                 </label>
                 <div class="file-info" id="fileInfo">No file selected</div>
-                <div class="mdc-text-field-helper-line">
-                    <div class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent">
-                        CSV should have columns named "email" and "name"
-                    </div>
+                <div class="csv-info-tooltip">
+                    <i class="material-icons info-icon">info</i>
+                    <span class="tooltip-text">CSV should have columns named "email" and "name"</span>
                 </div>
             </div>
             <div class="step-actions">
