@@ -1,13 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('newsletterForm');
+    // Initialize EmailJS with your user ID
+    emailjs.init('moQLyVzFTD1ooZRvr');
+    
+    const sendBtn = document.getElementById('sendBtn');
+    const titleInput = document.getElementById('title');
+    const contentInput = document.getElementById('content');
+    const csvFileInput = document.getElementById('csvFile');
     const statusDiv = document.getElementById('status');
     
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const title = document.getElementById('title').value.trim();
-        const content = document.getElementById('content').value.trim();
-        const file = document.getElementById('csvFile').files[0];
+    sendBtn.addEventListener('click', async function() {
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+        const file = csvFileInput.files[0];
         
         if (!title || !content || !file) {
             showStatus('Please fill all fields and upload a CSV file', 'error');
@@ -16,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         try {
             showStatus('Processing CSV file...', 'progress');
-            const recipients = await parseCSV(file);
+            const recipients = await parseCSV(file); // Now returns array of objects
             
             if (recipients.length === 0) {
                 showStatus('No valid recipients found in CSV', 'error');
@@ -26,28 +30,29 @@ document.addEventListener('DOMContentLoaded', function() {
             showStatus(`Sending newsletters to ${recipients.length} recipients...`, 'progress');
             
             let successCount = 0;
+            let errorCount = 0;
             
             for (let i = 0; i < recipients.length; i++) {
                 const recipient = recipients[i];
                 try {
-                    await sendEmail(recipient, title, content);
+                    await sendEmail(recipient.email, recipient.name, title, content);
                     successCount++;
                     
                     if (i % 5 === 0 || i === recipients.length - 1) {
-                        showStatus(`Sending... ${successCount}/${recipients.length}`, 'progress');
+                        showStatus(`Sending... (${successCount + errorCount}/${recipients.length})`, 'progress');
                     }
                     
-                    // Delay to avoid rate limiting (1 second between emails)
-                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    await new Promise(resolve => setTimeout(resolve, 500));
                 } catch (error) {
+                    errorCount++;
                     console.error(`Failed to send to ${recipient.email}:`, error);
                 }
             }
             
-            showStatus(`Newsletters sent successfully to ${successCount} recipients!`, 'success');
+            showStatus(`Newsletters sent successfully to ${successCount} recipients. ${errorCount} failed.`, 'success');
         } catch (error) {
             console.error('Error:', error);
-            showStatus('An error occurred: ' + error.message, 'error');
+            showStatus('An error occurred while sending newsletters: ' + error.message, 'error');
         }
     });
     
@@ -71,11 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     if (emailIndex === -1) {
-                        reject(new Error('CSV must contain an "email" column'));
-                        return;
+                        // If no email column found, try to use first column
+                        emailIndex = 0;
                     }
                     
-                    // Process each line (skip header if exists)
+                    // Process each line
                     const startRow = lines.length > 1 && lines[0].includes('@') ? 0 : 1;
                     
                     for (let i = startRow; i < lines.length; i++) {
@@ -85,9 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (columns.length > emailIndex) {
                             const email = columns[emailIndex].trim();
                             if (validateEmail(email)) {
-                                const name = nameIndex >= 0 && columns[nameIndex] ? 
-                                    columns[nameIndex].trim() : 'Subscriber';
-                                recipients.push({ email, name });
+                                const name = nameIndex >= 0 && columns[nameIndex] ? columns[nameIndex].trim() : '';
+                                recipients.push({
+                                    email: email,
+                                    name: name
+                                });
                             }
                         }
                     }
@@ -111,21 +118,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return re.test(email);
     }
     
-    async function sendEmail(recipient, title, content) {
-        return new Promise((resolve) => {
-            const formData = new FormData();
-            formData.append('_subject', title);
-            formData.append('email', recipient.email);
-            formData.append('message', `Hello ${recipient.name},\n\n${content}`);
-            
-            // Replace with your actual email
-            fetch('https://formsubmit.co/ajax/Spandan.Saxena@ibm.com', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => resolve(data))
-            .catch(error => { throw error });
+    function sendEmail(toEmail, name, title, content) {
+        // Update your template to use {{name}} if needed
+        return emailjs.send('service_2o8e4y8', 'template_ip0jok5', {
+            to_email: toEmail,
+            name: name,  // Added name parameter
+            title: title,
+            content: content
         });
     }
     
